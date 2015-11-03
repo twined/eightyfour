@@ -5,7 +5,7 @@ Eightyfour
 
 Mix.exs:
 
-```
+```elixir
 def application do 
   [applications: [:eightyfour]]
 end
