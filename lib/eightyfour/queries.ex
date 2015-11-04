@@ -30,14 +30,44 @@ defmodule Eightyfour.Query do
 
     response = api_get("", params)
 
-    rows = for [os, browser, version, hits] <- response["rows"], do:
+    for [os, browser, version, hits] <- response["rows"], do:
       [os: os, browser: browser, version: version, hits: hits]
+  end
 
-    %{
-      rows: rows,
-      totals: %{
-        visits: response["totalsForAllResults"]["ga:visits"]}
+  @doc """
+  Return total pageviews since forever
+  """
+  def page_views(:total) do
+    {start_date, end_date} = parse_duration(:forever)
+
+    params = %{
+      "start-date": start_date,
+      "end-date": end_date,
+      "dimensions": "",
+      "metrics": "ga:pageviews",
+      "max-results": "10000"
     }
+
+    response = api_get("", params)
+    response["totalsForAllResults"]["ga:pageviews"] || "0"
+  end
+
+  @doc """
+  Return yesterday's total pageviews
+  """
+  def page_views(:yesterday) do
+    {start_date, end_date} = parse_duration(:yesterday)
+
+    params = %{
+      "start-date": start_date,
+      "end-date": end_date,
+      "dimensions": "",
+      "metrics": "ga:pageviews",
+      "max-results": "10000"
+    }
+
+    response = api_get("", params)
+    response["totalsForAllResults"]["ga:pageviews"] || "0"
   end
 
   @doc """
@@ -49,7 +79,7 @@ defmodule Eightyfour.Query do
     dimensions =
       case duration do
         :yesterday -> "ga:hour"
-        :last_week -> "ga:day"
+        :last_week -> "ga:dayOfWeek"
         :last_month -> "ga:day"
         :forever -> "ga:isoYearIsoWeek"
       end
@@ -64,15 +94,8 @@ defmodule Eightyfour.Query do
 
     response = api_get("", params)
 
-    rows = for [dimension, pageviews, visitors] <- response["rows"], do:
+    for [dimension, pageviews, visitors] <- response["rows"], do:
       [dimension: dimension, pageviews: pageviews, visitors: visitors]
-
-    %{
-      rows: rows,
-      totals: %{
-        views: response["totalsForAllResults"]["ga:pageviews"],
-        visitors: response["totalsForAllResults"]["ga:visitors"]}
-    }
   end
 
   @doc """
@@ -95,11 +118,9 @@ defmodule Eightyfour.Query do
 
     response = api_get("", params)
 
-    rows = for [source, referral_path, page_views,
-                time_on_site, exits] <- response["rows"], do:
+    for [source, referral_path, page_views,
+         time_on_site, exits] <- response["rows"], do:
       [source: source, referral_path: referral_path,
        page_views: page_views, time_on_site: time_on_site, exits: exits]
-
-    %{rows: rows}
   end
 end
