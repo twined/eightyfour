@@ -11,9 +11,8 @@ defmodule Eightyfour.Mixfile do
   # Configuration for the OTP application
   #
   # Type `mix help compile.app` for more information
-  def application do [
-    applications: [:logger, :httpoison],
-    mod: {Eightyfour, []}]
+  def application do
+    [applications: [:logger, :httpoison]]
   end
 
   # Dependencies
@@ -21,6 +20,7 @@ defmodule Eightyfour.Mixfile do
     [{:poison, "~> 1.5"},
      {:httpoison, "~> 0.7.2"},
      {:json_web_token, "~> 0.2"},
-     {:timex, ">= 1.0.0-rc1"}]
+     {:timex, ">= 1.0.0-rc1"},
+     {:dogma, github: "lpil/dogma", only: :dev}]
   end
 end

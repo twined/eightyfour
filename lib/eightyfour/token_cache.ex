@@ -1,4 +1,7 @@
 defmodule Eightyfour.TokenCache do
+  @moduledoc """
+  Caches our Google OAuth token
+  """
   use GenServer
   alias Eightyfour.AccessToken
 

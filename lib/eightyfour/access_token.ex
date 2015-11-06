@@ -1,8 +1,12 @@
 defmodule Eightyfour.AccessToken do
+  @moduledoc """
+  Access token helpers
+  """
   @type t :: %Eightyfour.AccessToken{token: String.t, expires_in: integer}
   defstruct token: "", expires_in: nil
 
   alias Eightyfour.Settings, as: Settings
+  import Eightyfour.Utils, only: [seconds_since_epoch: 0, one_hour_from_now: 0]
 
   @header ~s({"alg":"RS256","typ":"JWT"})
   @refresh_url "https://www.googleapis.com/oauth2/v3/token"
@@ -50,13 +54,5 @@ defmodule Eightyfour.AccessToken do
       iat:   seconds_since_epoch(),
       exp:   one_hour_from_now()
     }
-  end
-  defp seconds_since_epoch() do
-    {mega_secs, secs, _} = :os.timestamp
-    (mega_secs * 1000000) + secs
-  end
-
-  defp one_hour_from_now() do
-    seconds_since_epoch + 3600
   end
 end

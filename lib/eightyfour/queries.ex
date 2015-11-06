@@ -13,12 +13,22 @@ defmodule Eightyfour.Query do
   import Eightyfour.Client, only: [api_get: 2]
   import Eightyfour.Utils
 
+  def fetch(query, params) do
+    case Eightyfour.QueryCache.get(query) do
+      [] ->
+        response = api_get("", params)
+        Eightyfour.QueryCache.put(query, response["rows"])
+        response["rows"]
+      [{_, _, result}] ->
+        result
+    end
+  end
+
   @doc """
   Return browsers/OS used
   """
   def browsers(duration) do
     {start_date, end_date} = parse_duration(duration)
-
     params = %{
       "start-date": start_date,
       "end-date": end_date,
@@ -27,10 +37,9 @@ defmodule Eightyfour.Query do
       "sort": "-ga:visits",
       "max-results": "10000"
     }
+    result = fetch({:browsers, {start_date, end_date}}, params)
 
-    response = api_get("", params)
-
-    for [os, browser, version, hits] <- response["rows"], do:
+    for [os, browser, version, hits] <- result, do:
       [os: os, browser: browser, version: version, hits: hits]
   end
 
@@ -48,8 +57,15 @@ defmodule Eightyfour.Query do
       "max-results": "10000"
     }
 
-    response = api_get("", params)
-    response["totalsForAllResults"]["ga:pageviews"] || "0"
+    result = fetch({:page_views, {start_date, end_date}}, params)
+
+    if result do
+      result
+      |> List.flatten
+      |> List.first
+    else
+      "0"
+    end
   end
 
   @doc """
@@ -66,8 +82,15 @@ defmodule Eightyfour.Query do
       "max-results": "10000"
     }
 
-    response = api_get("", params)
-    response["totalsForAllResults"]["ga:pageviews"] || "0"
+    result = fetch({:page_views, {start_date, end_date}}, params)
+
+    if result do
+      result
+      |> List.flatten
+      |> List.first
+    else
+      "0"
+    end
   end
 
   @doc """
@@ -92,9 +115,9 @@ defmodule Eightyfour.Query do
       "max-results": "10000"
     }
 
-    response = api_get("", params)
+    result = fetch({:page_views, {start_date, end_date}}, params)
 
-    for [dimension, pageviews, visitors] <- response["rows"], do:
+    for [dimension, pageviews, visitors] <- result, do:
       [dimension: dimension, pageviews: pageviews, visitors: visitors]
   end
 
@@ -116,10 +139,9 @@ defmodule Eightyfour.Query do
       "max-results": max_results,
     }
 
-    response = api_get("", params)
+    result = fetch({:referrals, {start_date, end_date}}, params)
 
-    for [source, referral_path, page_views,
-         time_on_site, exits] <- response["rows"], do:
+    for [source, referral_path, page_views, time_on_site, exits] <- result, do:
       [source: source, referral_path: referral_path,
        page_views: page_views, time_on_site: time_on_site, exits: exits]
   end

@@ -23,7 +23,8 @@ defmodule Eightyfour.Client do
 
   def api_get(url, params) do
     defs = %{"ids": "ga:#{Application.get_env(:eightyfour, :google_view_id)}"}
-    {:ok, %HTTPoison.Response{body: body}} = get(url, [], params: Map.merge(params, defs))
+    {:ok, %HTTPoison.Response{body: body}} =
+      get(url, [], params: Map.merge(params, defs))
 
     body
   end

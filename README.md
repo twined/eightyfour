@@ -15,6 +15,12 @@ defp deps do
 end
 ```
 
+Add to your supervision tree:
+
+```elixir
+worker(Eightyfour, [])
+```
+
 ## Usage
 
 Config options:
