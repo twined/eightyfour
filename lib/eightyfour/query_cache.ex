@@ -12,6 +12,13 @@ defmodule Eightyfour.QueryCache do
     GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
   end
 
+  @doc """
+  Stops the registry.
+  """
+  def stop() do
+    GenServer.call(__MODULE__, :stop)
+  end
+
   def init(_) do
     :ets.new(__MODULE__, [:named_table, :public, read_concurrency: true])
     {:ok, {__MODULE__, :ok}}
@@ -35,5 +42,11 @@ defmodule Eightyfour.QueryCache do
           result
         end
     end
+  end
+
+  ## Server Callbacks
+
+  def handle_call(:stop, _from, state) do
+    {:stop, :normal, :ok, state}
   end
 end
