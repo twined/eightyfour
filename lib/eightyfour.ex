@@ -8,7 +8,7 @@ defmodule Eightyfour do
     defexception [:message]
   end
 
-  def start_link() do
+  def start_link do
     import Supervisor.Spec, warn: false
 
     children = [

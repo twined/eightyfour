@@ -16,7 +16,7 @@ defmodule Eightyfour.AccessToken do
   @doc """
   Refresh the auth token
   """
-  def refresh() do
+  def refresh do
     form_data = [
       grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
       assertion: jwt()
@@ -35,18 +35,18 @@ defmodule Eightyfour.AccessToken do
     }
   end
 
-  defp jwt() do
+  defp jwt do
     JsonWebToken.sign(claim_set(), %{alg: "RS256", key: private_key()})
   end
 
-  defp private_key() do
+  defp private_key do
     path = Settings.private_key_path
     dir = Path.dirname(path)
     key = Path.basename(path)
     JsonWebToken.Algorithm.RsaUtil.private_key(dir, key)
   end
 
-  defp claim_set() do
+  defp claim_set do
     %{
       iss:   Settings.client_email,
       scope: @permissions,

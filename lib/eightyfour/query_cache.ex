@@ -15,7 +15,7 @@ defmodule Eightyfour.QueryCache do
   @doc """
   Stops the registry.
   """
-  def stop() do
+  def stop do
     GenServer.call(__MODULE__, :stop)
   end
 

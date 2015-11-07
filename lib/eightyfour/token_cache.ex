@@ -5,11 +5,11 @@ defmodule Eightyfour.TokenCache do
   use GenServer
   alias Eightyfour.AccessToken
 
-  def start_link() do
+  def start_link do
     GenServer.start_link(__MODULE__, {%AccessToken{}, {}}, name: __MODULE__)
   end
 
-  def access_token() do
+  def access_token do
     GenServer.call(__MODULE__, :access_token)
   end
 
@@ -25,7 +25,7 @@ defmodule Eightyfour.TokenCache do
     end
   end
 
-  defp refresh() do
+  defp refresh do
     token = token_provider().refresh()
     retrieved = :os.timestamp
     {:reply, token.token, {token, retrieved}}
