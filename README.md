@@ -27,8 +27,8 @@ Config options:
 
 ```elixir
 config :eightyfour,
-  credentials: "priv/google_token/token.json",
-  private_key: "priv/google_token/token.key.pem",
+  credentials: "priv/tokens/google/token.json",
+  private_key: "priv/tokens/google/token.key.pem",
   # find your view_id in your analytics url:
   # https://www.google.com/analytics/web/#management/Settings/a000w000pVIEW_ID/
   google_view_id: "XXXXXX",
@@ -47,7 +47,7 @@ Create a Google service account:
 * Click the email address under `Service accounts`.
 * `Generate new P12 key`
 * Save as `token.p12`
-* Move tokens to `priv/google_tokens` under your otp_app.
+* Move tokens to `priv/tokens/google` under your otp_app.
 * `openssl pkcs12 -in token.p12 -out token.crt.pem -clcerts -nokeys`
 * `openssl pkcs12 -in token.p12 -out token.key.pem -nocerts -nodes`
 
