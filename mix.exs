@@ -17,10 +17,10 @@ defmodule Eightyfour.Mixfile do
 
   # Dependencies
   defp deps do
-    [{:poison, "~> 1.5"},
+    [{:poison, "~> 1.5 or ~> 2.0"},
      {:httpoison, "~> 0.8"},
      {:json_web_token, "~> 0.2"},
-     {:timex, ">= 1.0.0-rc1"},
+     {:timex, "~> 2.1"},
      {:dogma, github: "lpil/dogma", only: :dev}]
   end
 end
