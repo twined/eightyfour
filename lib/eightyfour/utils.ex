@@ -2,32 +2,30 @@ defmodule Eightyfour.Utils do
   @moduledoc """
   Common utilities.
   """
-  alias Timex.DateFormat
-  alias Timex.Date
 
   def parse_duration(:yesterday) do
-    date = DateFormat.format!(Date.shift(Date.now, days: -1), "%Y-%m-%d", :strftime)
+    date = Timex.format!(Timex.Date.shift(Timex.Date.now, days: -1), "%Y-%m-%d", :strftime)
     {date, date}
   end
 
   def parse_duration(:last_week) do
-    date_now = Date.now
-    date = DateFormat.format!(Date.shift(date_now, days: -7), "%Y-%m-%d", :strftime)
-    date_now = DateFormat.format!(date_now, "%Y-%m-%d", :strftime)
+    date_now = Timex.Date.now
+    date = Timex.format!(Timex.Date.shift(date_now, days: -7), "%Y-%m-%d", :strftime)
+    date_now = Timex.format!(date_now, "%Y-%m-%d", :strftime)
     {date, date_now}
   end
 
   def parse_duration(:last_month) do
-    date_now = Date.now
-    date = DateFormat.format!(Date.shift(date_now, months: -1), "%Y-%m-%d", :strftime)
-    date_now = DateFormat.format!(date_now, "%Y-%m-%d", :strftime)
+    date_now = Timex.Date.now
+    date = Timex.format!(Timex.Date.shift(date_now, months: -1), "%Y-%m-%d", :strftime)
+    date_now = Timex.format!(date_now, "%Y-%m-%d", :strftime)
     {date, date_now}
   end
 
   def parse_duration(:last_year) do
-    date_now = Date.now
-    date = DateFormat.format!(Date.shift(date_now, years: -1), "%Y-%m-%d", :strftime)
-    date_now = DateFormat.format!(date_now, "%Y-%m-%d", :strftime)
+    date_now = Timex.Date.now
+    date = Timex.format!(Timex.Date.shift(date_now, years: -1), "%Y-%m-%d", :strftime)
+    date_now = Timex.format!(date_now, "%Y-%m-%d", :strftime)
     {date, date_now}
   end
 
