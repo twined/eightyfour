@@ -26,13 +26,15 @@ defmodule Eightyfour.TokenCache do
   end
 
   defp refresh do
-    token = token_provider().refresh()
+    token     = token_provider().refresh()
     retrieved = :os.timestamp
+
     {:reply, token.token, {token, retrieved}}
   end
 
   defp token_expired(retrieved, expires_in) do
     now = :os.timestamp
+    
     :timer.now_diff(now, retrieved) >= (expires_in * 1000000)
   end
 

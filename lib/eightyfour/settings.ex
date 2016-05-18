@@ -9,6 +9,7 @@ defmodule Eightyfour.Settings do
 
   defp read_config do
     credentials_file = Application.get_env(:eightyfour, :credentials)
+
     case File.read(credentials_file) do
       {:ok, json} ->
         Poison.decode!(json)

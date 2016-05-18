@@ -50,11 +50,11 @@ defmodule Eightyfour.Query do
     {start_date, end_date} = parse_duration(:forever)
 
     params = %{
-      "start-date": start_date,
-      "end-date": end_date,
-      "dimensions": "",
-      "metrics": "ga:pageviews",
-      "max-results": "10000"
+      "start-date"  => start_date,
+      "end-date"    => end_date,
+      "dimensions"  => "",
+      "metrics"     => "ga:pageviews",
+      "max-results" => "10000"
     }
 
     result = fetch({:page_views, {start_date, end_date}}, params)
@@ -75,11 +75,11 @@ defmodule Eightyfour.Query do
     {start_date, end_date} = parse_duration(:yesterday)
 
     params = %{
-      "start-date": start_date,
-      "end-date": end_date,
-      "dimensions": "",
-      "metrics": "ga:pageviews",
-      "max-results": "10000"
+      "start-date"  => start_date,
+      "end-date"    => end_date,
+      "dimensions"  => "",
+      "metrics"     => "ga:pageviews",
+      "max-results" => "10000"
     }
 
     result = fetch({:page_views, {start_date, end_date}}, params)
@@ -101,18 +101,18 @@ defmodule Eightyfour.Query do
 
     dimensions =
       case duration do
-        :yesterday -> "ga:hour"
-        :last_week -> "ga:dayOfWeek"
+        :yesterday  -> "ga:hour"
+        :last_week  -> "ga:dayOfWeek"
         :last_month -> "ga:day"
-        :forever -> "ga:isoYearIsoWeek"
+        :forever    -> "ga:isoYearIsoWeek"
       end
 
     params = %{
-      "start-date": start_date,
-      "end-date": end_date,
-      "dimensions": dimensions,
-      "metrics": "ga:pageviews, ga:visitors",
-      "max-results": "10000"
+      "start-date"  => start_date,
+      "end-date"    => end_date,
+      "dimensions"  => dimensions,
+      "metrics"     => "ga:pageviews, ga:visitors",
+      "max-results" => "10000"
     }
 
     result = fetch({:page_views, {start_date, end_date}}, params)
@@ -130,13 +130,13 @@ defmodule Eightyfour.Query do
     {start_date, end_date} = parse_duration(duration)
 
     params = %{
-      "start-date": start_date,
-      "end-date": end_date,
-      "dimensions": "ga:source,ga:referralPath",
-      "metrics": "ga:pageviews,ga:timeOnSite,ga:exits",
-      "filters": "ga:medium==referral",
-      "sort": "-ga:pageviews",
-      "max-results": max_results,
+      "start-date"  => start_date,
+      "end-date"    => end_date,
+      "dimensions"  => "ga:source,ga:referralPath",
+      "metrics"     => "ga:pageviews,ga:timeOnSite,ga:exits",
+      "filters"     => "ga:medium==referral",
+      "sort"        => "-ga:pageviews",
+      "max-results" => max_results,
     }
 
     result = fetch({:referrals, {start_date, end_date}}, params)

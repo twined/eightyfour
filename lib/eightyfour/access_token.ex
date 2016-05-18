@@ -41,8 +41,9 @@ defmodule Eightyfour.AccessToken do
 
   defp private_key do
     path = Settings.private_key_path
-    dir = Path.dirname(path)
-    key = Path.basename(path)
+    dir  = Path.dirname(path)
+    key  = Path.basename(path)
+    
     JsonWebToken.Algorithm.RsaUtil.private_key(dir, key)
   end
 
