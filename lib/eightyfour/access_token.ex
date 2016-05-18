@@ -19,7 +19,7 @@ defmodule Eightyfour.AccessToken do
   def refresh do
     form_data = [
       grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
-      assertion: jwt()
+      assertion:  jwt()
     ]
 
     {:ok, %HTTPoison.Response{body: body, status_code: 200}} = HTTPoison.post(
@@ -30,7 +30,7 @@ defmodule Eightyfour.AccessToken do
     token = Poison.decode!(body)
 
     %Eightyfour.AccessToken{
-      token: token["access_token"],
+      token:      token["access_token"],
       expires_in: token["expires_in"]
     }
   end
@@ -43,7 +43,7 @@ defmodule Eightyfour.AccessToken do
     path = Settings.private_key_path
     dir  = Path.dirname(path)
     key  = Path.basename(path)
-    
+
     JsonWebToken.Algorithm.RsaUtil.private_key(dir, key)
   end
 
