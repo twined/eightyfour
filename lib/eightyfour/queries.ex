@@ -117,8 +117,10 @@ defmodule Eightyfour.Query do
 
     result = fetch({:page_views, {start_date, end_date}}, params)
 
-    for [dimension, pageviews, visitors] <- result, do:
-      [dimension: dimension, pageviews: pageviews, visitors: visitors]
+    unless result == nil do
+      for [dimension, pageviews, visitors] <- result, do:
+        [dimension: dimension, pageviews: pageviews, visitors: visitors]
+    end
   end
 
   @doc """
@@ -141,8 +143,10 @@ defmodule Eightyfour.Query do
 
     result = fetch({:referrals, {start_date, end_date}}, params)
 
-    for [source, referral_path, page_views, time_on_site, exits] <- result, do:
-      [source: source, referral_path: referral_path,
-       page_views: page_views, time_on_site: time_on_site, exits: exits]
+    unless result == nil do
+      for [source, referral_path, page_views, time_on_site, exits] <- result, do:
+        [source: source, referral_path: referral_path,
+         page_views: page_views, time_on_site: time_on_site, exits: exits]
+    end
   end
 end
