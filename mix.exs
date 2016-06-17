@@ -12,7 +12,7 @@ defmodule Eightyfour.Mixfile do
   #
   # Type `mix help compile.app` for more information
   def application do
-    [applications: [:logger, :httpoison, :poison, :json_web_token, :timex]]
+    [applications: [:logger, :httpoison, :poison, :json_web_token, :timex, :tzdata]]
   end
 
   # Dependencies
