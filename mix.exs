@@ -18,7 +18,9 @@ defmodule Eightyfour.Mixfile do
   def package do
     [maintainers: ["Twined Networks"],
      licenses: ["MIT"],
-     links: %{github: "https://github.com/twined/eightyfour"}]
+     files: ["config", "lib", "test", "CHANGELOG.md", "LICENSE", "mix.exs", "README.md"],
+     links: %{github: "https://github.com/twined/eightyfour"}
+    ]
 end
 
   # Dependencies
