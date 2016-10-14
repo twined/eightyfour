@@ -26,7 +26,7 @@ end
     [{:poison, "~> 1.5 or ~> 2.0 or ~> 3.0"},
      {:httpoison, "~> 0.8"},
      {:json_web_token, "~> 0.2"},
-     {:timex, "~> 2.1 or ~> 3.0"},
+     {:timex, "~> 3.0"},
      {:dogma, github: "lpil/dogma", only: :dev}]
   end
 end
