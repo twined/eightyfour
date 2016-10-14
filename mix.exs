@@ -3,7 +3,7 @@ defmodule Eightyfour.Mixfile do
 
   def project do
     [app: :eightyfour,
-     version: "0.0.1",
+     version: "0.1.0",
      elixir: "~> 1.0",
      description: "Barebones Elixir Google Analytics API wrapper",
      package: package(),
