@@ -5,22 +5,28 @@ defmodule Eightyfour.Mixfile do
     [app: :eightyfour,
      version: "0.0.1",
      elixir: "~> 1.0",
-     deps: deps]
+     description: "Barebones Elixir Google Analytics API wrapper",
+     package: package(),
+     deps: deps()]
   end
 
   # Configuration for the OTP application
-  #
-  # Type `mix help compile.app` for more information
   def application do
     [applications: [:logger, :httpoison, :poison, :json_web_token, :timex, :tzdata]]
   end
 
+  def package do
+    [maintainers: ["Twined Networks"],
+     licenses: ["MIT"],
+     links: %{github: "https://github.com/twined/eightyfour"}]
+end
+
   # Dependencies
   defp deps do
-    [{:poison, "~> 1.5 or ~> 2.0"},
+    [{:poison, "~> 1.5 or ~> 2.0 or ~> 3.0"},
      {:httpoison, "~> 0.8"},
      {:json_web_token, "~> 0.2"},
-     {:timex, "~> 2.1"},
+     {:timex, "~> 2.1 or ~> 3.0"},
      {:dogma, github: "lpil/dogma", only: :dev}]
   end
 end
