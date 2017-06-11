@@ -46,6 +46,6 @@ defmodule Eightyfour.Utils do
   end
 
   def one_hour_from_now do
-    seconds_since_epoch + 3600
+    seconds_since_epoch() + 3600
   end
 end

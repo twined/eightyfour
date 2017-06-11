@@ -4,7 +4,7 @@ defmodule Eightyfour.Settings do
 
   Fetches from application config as well as the credentials file.
   """
-  def client_email,     do: read_config["client_email"]
+  def client_email,     do: read_config()["client_email"]
   def private_key_path, do: Application.get_env(:eightyfour, :private_key)
 
   defp read_config do

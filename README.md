@@ -11,7 +11,7 @@ def application do
 end
 
 defp deps do
-  [{:eightyfour, "~> 0.2"}]
+  [{:eightyfour, "~> 0.2.1"}]
 end
 ```
 

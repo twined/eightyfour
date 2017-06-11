@@ -8,7 +8,6 @@ defmodule Eightyfour.AccessToken do
   alias Eightyfour.Settings, as: Settings
   import Eightyfour.Utils, only: [seconds_since_epoch: 0, one_hour_from_now: 0]
 
-  @header ~s({"alg":"RS256","typ":"JWT"})
   @refresh_url "https://www.googleapis.com/oauth2/v3/token"
   @permissions "https://www.googleapis.com/auth/analytics.readonly"
   @access_token_exchange_url "https://www.googleapis.com/oauth2/v3/token"
@@ -23,7 +22,7 @@ defmodule Eightyfour.AccessToken do
     ]
 
     {:ok, %HTTPoison.Response{body: body, status_code: 200}} = HTTPoison.post(
-      "https://www.googleapis.com/oauth2/v3/token",
+      @access_token_exchange_url,
       {:form, form_data}
     )
 
