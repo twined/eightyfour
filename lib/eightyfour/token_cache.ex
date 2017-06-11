@@ -18,7 +18,7 @@ defmodule Eightyfour.TokenCache do
   end
 
   def handle_call(:access_token, _, {access_token = %AccessToken{}, retrieved}) do
-    if (token_expired(retrieved, access_token.expires_in)) do
+    if token_expired(retrieved, access_token.expires_in) do
       refresh()
     else
       {:reply, access_token.token, {access_token, retrieved}}
@@ -34,8 +34,8 @@ defmodule Eightyfour.TokenCache do
 
   defp token_expired(retrieved, expires_in) do
     now = :os.timestamp
-    
-    :timer.now_diff(now, retrieved) >= (expires_in * 1000000)
+
+    :timer.now_diff(now, retrieved) >= (expires_in * 1_000_000)
   end
 
   defp token_provider do

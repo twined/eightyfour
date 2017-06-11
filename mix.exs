@@ -29,7 +29,7 @@ end
      {:httpoison, "~> 0.8"},
      {:json_web_token, "~> 0.2"},
      {:timex, "~> 3.0"},
-     {:ex_doc, ">= 0.0.0", only: :dev},
-     {:dogma, github: "lpil/dogma", only: :dev}]
+     {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
+     {:ex_doc, ">= 0.0.0", only: :dev}]
   end
 end

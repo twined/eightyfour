@@ -42,7 +42,7 @@ defmodule Eightyfour.Utils do
 
   def seconds_since_epoch do
     {mega_secs, secs, _} = :os.timestamp
-    (mega_secs * 1000000) + secs
+    (mega_secs * 1_000_000) + secs
   end
 
   def one_hour_from_now do
