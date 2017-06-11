@@ -6,12 +6,12 @@ Eightyfour
 Mix.exs:
 
 ```elixir
-def application do 
+def application do
   [applications: [:eightyfour]]
 end
 
 defp deps do
-  [{:eightyfour, "~> 0.1"}]
+  [{:eightyfour, "~> 0.2"}]
 end
 ```
 
