@@ -2,7 +2,7 @@ defmodule Eightyfour.AccessToken do
   @moduledoc """
   Access token helpers
   """
-  @type t :: %Eightyfour.AccessToken{token: String.t, expires_in: integer}
+  @type t :: %Eightyfour.AccessToken{token: String.t(), expires_in: integer}
   defstruct token: "", expires_in: nil
 
   alias Eightyfour.Settings, as: Settings
@@ -18,18 +18,19 @@ defmodule Eightyfour.AccessToken do
   def refresh do
     form_data = [
       grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
-      assertion:  jwt()
+      assertion: jwt()
     ]
 
-    {:ok, %HTTPoison.Response{body: body, status_code: 200}} = HTTPoison.post(
-      @access_token_exchange_url,
-      {:form, form_data}
-    )
+    {:ok, %HTTPoison.Response{body: body, status_code: 200}} =
+      HTTPoison.post(
+        @access_token_exchange_url,
+        {:form, form_data}
+      )
 
     token = Poison.decode!(body)
 
     %Eightyfour.AccessToken{
-      token:      token["access_token"],
+      token: token["access_token"],
       expires_in: token["expires_in"]
     }
   end
@@ -39,20 +40,20 @@ defmodule Eightyfour.AccessToken do
   end
 
   defp private_key do
-    path = Settings.private_key_path
-    dir  = Path.dirname(path)
-    key  = Path.basename(path)
+    path = Settings.private_key_path()
+    dir = Path.dirname(path)
+    key = Path.basename(path)
 
     JsonWebToken.Algorithm.RsaUtil.private_key(dir, key)
   end
 
   defp claim_set do
     %{
-      iss:   Settings.client_email,
+      iss: Settings.client_email(),
       scope: @permissions,
-      aud:   @refresh_url,
-      iat:   seconds_since_epoch(),
-      exp:   one_hour_from_now()
+      aud: @refresh_url,
+      iat: seconds_since_epoch(),
+      exp: one_hour_from_now()
     }
   end
 end

@@ -9,8 +9,9 @@ defmodule Eightyfour.Client do
     @base_url <> url
   end
 
-  defp process_request_headers(headers) do
+  def process_request_headers(headers) do
     token = Eightyfour.TokenCache.access_token()
+
     Enum.into(headers, [
       {"Authorization", "Bearer #{token}"},
       {"Content-type", "application/json"}

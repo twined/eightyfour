@@ -33,8 +33,10 @@ defmodule Eightyfour.QueryCache do
     case :ets.lookup(__MODULE__, query) do
       [] ->
         []
+
       result ->
         [{_, expires, _}] = result
+
         if seconds_since_epoch() > expires do
           :ets.delete(__MODULE__, query)
           []

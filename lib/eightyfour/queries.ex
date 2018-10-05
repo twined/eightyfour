@@ -19,6 +19,7 @@ defmodule Eightyfour.Query do
         response = api_get("", params)
         Eightyfour.QueryCache.put(query, response["rows"])
         response["rows"]
+
       [{_, _, result}] ->
         result
     end
@@ -29,31 +30,35 @@ defmodule Eightyfour.Query do
   """
   def browsers(duration) do
     {start_date, end_date} = parse_duration(duration)
+
     params = %{
-      "start-date": start_date,
-      "end-date": end_date,
-      "dimensions": "ga:operatingSystem,ga:browser,ga:browserVersion",
-      "metrics": "ga:visits",
-      "sort": "-ga:visits",
-      "max-results": "10000"
+      "start-date" => start_date,
+      "end-date" => end_date,
+      "dimensions" => "ga:operatingSystem,ga:browser,ga:browserVersion",
+      "metrics" => "ga:visits",
+      "sort" => "-ga:visits",
+      "max-results" => "10000"
     }
+
     result = fetch({:browsers, {start_date, end_date}}, params)
 
-    for [os, browser, version, hits] <- result, do:
-      [os: os, browser: browser, version: version, hits: hits]
+    for [os, browser, version, hits] <- result,
+        do: [os: os, browser: browser, version: version, hits: hits]
   end
 
   @doc """
-  Return total pageviews since forever
+  Return page views
+
+  `:total`, `:yesterday`,
   """
   def page_views(:total) do
     {start_date, end_date} = parse_duration(:forever)
 
     params = %{
-      "start-date"  => start_date,
-      "end-date"    => end_date,
-      "dimensions"  => "",
-      "metrics"     => "ga:pageviews",
+      "start-date" => start_date,
+      "end-date" => end_date,
+      "dimensions" => "",
+      "metrics" => "ga:pageviews",
       "max-results" => "10000"
     }
 
@@ -61,24 +66,22 @@ defmodule Eightyfour.Query do
 
     if result do
       result
-      |> List.flatten
-      |> List.first
+      |> List.flatten()
+      |> List.first()
     else
       "0"
     end
   end
 
-  @doc """
-  Return yesterday's total pageviews
-  """
+  # Return yesterday's total pageviews
   def page_views(:yesterday) do
     {start_date, end_date} = parse_duration(:yesterday)
 
     params = %{
-      "start-date"  => start_date,
-      "end-date"    => end_date,
-      "dimensions"  => "",
-      "metrics"     => "ga:pageviews",
+      "start-date" => start_date,
+      "end-date" => end_date,
+      "dimensions" => "",
+      "metrics" => "ga:pageviews",
       "max-results" => "10000"
     }
 
@@ -86,40 +89,38 @@ defmodule Eightyfour.Query do
 
     if result do
       result
-      |> List.flatten
-      |> List.first
+      |> List.flatten()
+      |> List.first()
     else
       "0"
     end
   end
 
-  @doc """
-  Return total page views and visitors
-  """
+  # Return total page views and visitors
   def page_views(duration) do
     {start_date, end_date} = parse_duration(duration)
 
     dimensions =
       case duration do
-        :yesterday  -> "ga:hour"
-        :last_week  -> "ga:dayOfWeek"
+        :yesterday -> "ga:hour"
+        :last_week -> "ga:dayOfWeek"
         :last_month -> "ga:day"
-        :forever    -> "ga:isoYearIsoWeek"
+        :forever -> "ga:isoYearIsoWeek"
       end
 
     params = %{
-      "start-date"  => start_date,
-      "end-date"    => end_date,
-      "dimensions"  => dimensions,
-      "metrics"     => "ga:pageviews, ga:visitors",
+      "start-date" => start_date,
+      "end-date" => end_date,
+      "dimensions" => dimensions,
+      "metrics" => "ga:pageviews, ga:visitors",
       "max-results" => "10000"
     }
 
     result = fetch({:page_views, {start_date, end_date}}, params)
 
     unless result == nil do
-      for [dimension, pageviews, visitors] <- result, do:
-        [dimension: dimension, pageviews: pageviews, visitors: visitors]
+      for [dimension, pageviews, visitors] <- result,
+          do: [dimension: dimension, pageviews: pageviews, visitors: visitors]
     end
   end
 
@@ -132,21 +133,26 @@ defmodule Eightyfour.Query do
     {start_date, end_date} = parse_duration(duration)
 
     params = %{
-      "start-date"  => start_date,
-      "end-date"    => end_date,
-      "dimensions"  => "ga:source,ga:referralPath",
-      "metrics"     => "ga:pageviews,ga:timeOnSite,ga:exits",
-      "filters"     => "ga:medium==referral",
-      "sort"        => "-ga:pageviews",
-      "max-results" => max_results,
+      "start-date" => start_date,
+      "end-date" => end_date,
+      "dimensions" => "ga:source,ga:referralPath",
+      "metrics" => "ga:pageviews,ga:timeOnSite,ga:exits",
+      "filters" => "ga:medium==referral",
+      "sort" => "-ga:pageviews",
+      "max-results" => max_results
     }
 
     result = fetch({:referrals, {start_date, end_date}}, params)
 
     unless result == nil do
-      for [source, referral_path, page_views, time_on_site, exits] <- result, do:
-        [source: source, referral_path: referral_path,
-         page_views: page_views, time_on_site: time_on_site, exits: exits]
+      for [source, referral_path, page_views, time_on_site, exits] <- result,
+          do: [
+            source: source,
+            referral_path: referral_path,
+            page_views: page_views,
+            time_on_site: time_on_site,
+            exits: exits
+          ]
     end
   end
 end
